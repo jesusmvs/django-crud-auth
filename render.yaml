@@ -1,8 +1,8 @@
 databases:
   - name: django-crud-authdb
     plan: free
-    databaseName: django-crud-auth
-    user: django-crud-auth
+    databaseName: djangocrudauth
+    user: root
 
 services:
   - type: web
