@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">{{title}} Tasks</h1>
+        <ul class="list-group">
+            {% for task in tasks %}
+                
+                <a class="list-group-item mt-5" href="{% url 'task_detail' task.id %}">
+                    <header class="d-flex justify-content-between">
+                        <strong>{{task.title}} {% if task.important %} 🚩 {% endif %}</strong>
+                        <p>{{task.dateCompleted|date:'M/j/Y H:i:s'}}</p>
+                    </header>
+                    <p>{{task.description}}</p>
+                </a>
+                   
+                <div class="row mb-2"> <!-- d-flex -->
+                    
+                    <div class="col-md-3 mt-2">
+                        <div class="form-group">
+                            <form action="{% url 'complete_task' task.id %}" method="POST" class="">
+                                {%csrf_token%}
+                                <button class="btn btn-primary w-100">✅ Done</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 mt-2">
+                        <div class="form-group">
+                            <form action="{% url 'delete_task' task.id %}" method="POST" class="">
+                                {%csrf_token%}
+                                <button class="btn btn-danger w-100">☠ Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
