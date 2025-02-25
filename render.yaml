@@ -1,0 +1,22 @@
+databases:
+  - name: django-crud-authdb
+    plan: free
+    databaseName: django-crud-auth
+    user: django-crud-auth
+
+services:
+  - type: web
+    plan: free
+    name: django-crud-auth
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn django-crud-auth.asgi:application -k uvicorn.workers.UvicornWorker"    
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: django-crud-authdb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
